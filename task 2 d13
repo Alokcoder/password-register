@@ -1,0 +1,118 @@
+def register():
+    test1 = True
+    test2=True
+    count=0
+    count2=0
+    print("Registration Details : ")
+    u=input("Username:")
+    p=input("Password:")
+    user=list(x for x in u)
+    psw=list(x for x in p)
+    splchar="@_!#$%^&*()<>?/\|}{~:"
+
+    for x in user:
+        if x=="@":
+            count+=1
+        if x=='.':
+            count2+=1
+
+
+    if count==0 or count2==0:
+        test1=False
+        print("registration failed please enter valid credentials")
+    else:
+        if user[0]=="@" or user[0].isdigit()==True:
+            test1=False
+        for y in splchar:
+            if user[0]==y:
+                test1=False
+
+        arg1=user.index("@")
+        if user[arg1+1]=='.':
+            test1=False
+
+        arg2=0
+        for x in range(arg1,len(user)):
+            if user[x]=='.':
+                arg2+=1
+        if arg2==0:
+            test1=False
+
+        if len(psw)<=5 or len(psw)>=16:
+            test2= False
+
+        d=0
+        c=0
+        uc=0
+        lc=0
+        for x in psw:
+            if x.islower()==True:
+                lc+=1
+            if x.isupper()==True:
+                uc+=1
+            if x.isdigit()==True:
+                d+=1
+            for y in splchar:
+                if y==x:
+                    c+=1
+        if d==0 or c==0 or uc==0 or lc==0:
+            test2=False
+
+
+
+        if test1==True and test2==True:
+            r=open("/Users/alok.g.v/Desktop/python practice/register.txt",'a')
+            r.writelines("\n")
+            r.writelines(u)
+            r.writelines("\n")
+            r.writelines(p)
+            print("Registration successful")
+            r.close()
+
+        if test1!=True or test2!=True:
+            print("registration failed please input valid detail")
+
+
+def checkregister():
+    u=input("Username :")
+    p=input("Password :")
+    r=open("/Users/alok.g.v/Desktop/python practice/register.txt","r")
+    a=r.read().splitlines()
+    if u in a and p in a:
+        print("login successful")
+    else:
+        print("Please Register Credentials not found")
+
+    r.close()
+
+def recover():
+    u=input("Enter Username: ")
+    check=False
+    r=open("/Users/alok.g.v/Desktop/python practice/register.txt","r")
+    a=r.read().splitlines()
+    for x in a:
+        if check==True:
+            print("recovered password is :")
+            print(x)
+        elif x==str(u):
+            check=True
+
+
+
+print("Please input 1 to register and 2 to login ")
+print("Input 3 to recover password")
+n=int(input())
+
+if n ==1:
+    register()
+
+if n==2:
+    checkregister()
+
+if n==3:
+    recover()
+
+
+
+
+
